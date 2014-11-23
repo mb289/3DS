@@ -5,7 +5,124 @@
         <link rel="stylesheet" type="text/css" href="./bower_components/typeplate-starter-kit/css/typeplate.css">
         <title></title>
     </head>
-    <body style="opacity: 0;">
+    <body>
+
+   <header>
+  <div class="content">
+    <hgroup>
+      <h1><img src="./testw.svg"></h1>
+    </hgroup>
+
+  </div>
+
+  <div class="overlay"></div>
+   <h3><i>NiteOwl</i></h3>
+</header>
+
+<section class="site">
+
+
+  <h1>Our App</h1>
+<h6>Description</h6>
+
+<p>NiteOwl - Your perfect night. Our user-friendly profile system creates an experience you want, when you want it.</p>
+
+<h6>Restaurants</h6>
+<p>Prices, menus, specials, live music. What good be better? Italian or Chinese, dine your way.</p>
+
+<h6>Night Life</h6><br>
+<p>Going out tonight? Find the perfect club or karaoke bar to mix and mingle.</p>
+
+<h6>Shopping</h6><br>
+<p>Indulge in the shopping spree of your dreams. Malls, outlets, and boutiques for your every need.</p>
+
+<h6>Entertainment</h6><br>
+<p>Art, dance, theater, music, exhibits. Behold culture like never before.</p>
+<br>
+<p>NiteOwl learns with you as you roam your city to make sure that you get the night your deserve.</p>
+<br>
+<h3> Follow along with our presentation using our app on your mobile device. </h3>
+<a href="https://itunes.apple.com/us/app/briefscase/id626228717?mt=8">Download Briefscase to follow along.</a>
+<br>
+<a href="https://goo.gl/4Miomj"> Once you have Briefscase, download our project.</a>
+</section>
+
+<script>
+    var $content = $('header .content')
+  , $blur    = $('header .overlay')
+  , wHeight  = $(window).height();
+
+$(window).on('resize', function(){
+  wHeight = $(window).height();
+});
+
+window.requestAnimFrame = (function()
+{
+  return  window.requestAnimationFrame       ||
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame    ||
+          function( callback ){
+            window.setTimeout(callback, 1000 / 60);
+          };
+})();
+
+function Scroller()
+{
+  this.latestKnownScrollY = 0;
+  this.ticking            = false;
+}
+
+Scroller.prototype = {
+ 
+  init: function() {
+    window.addEventListener('scroll', this.onScroll.bind(this), false);
+    $blur.css('background-image',$('header:first-of-type').css('background-image'));
+  },
+
+
+  onScroll: function() {
+    this.latestKnownScrollY = window.scrollY;
+    this.requestTick();
+  },
+
+  
+  requestTick: function() {
+    if( !this.ticking ) {
+      window.requestAnimFrame(this.update.bind(this));
+    }
+    this.ticking = true;
+  },
+
+  update: function() {
+    var currentScrollY = this.latestKnownScrollY;
+    this.ticking       = false;
+    
+    
+    var slowScroll = currentScrollY / 2
+      , blurScroll = currentScrollY * 2
+      , opaScroll = 1.4 - currentScrollY / 400;
+   if(currentScrollY > wHeight)
+     $('nav').css('position','fixed');
+   else
+     $('nav').css('position','absolute');
+    
+    $content.css({
+      'transform'         : 'translateY(' + slowScroll + 'px)',
+      '-moz-transform'    : 'translateY(' + slowScroll + 'px)',
+      '-webkit-transform' : 'translateY(' + slowScroll + 'px)',
+      'opacity' : opaScroll
+    });
+    
+    $blur.css({
+      'opacity' : blurScroll / wHeight
+    });
+  }
+};
+
+
+var scroller = new Scroller();  
+scroller.init();
+</script>
         <script type="text/javascript" src="./bower_components/Loader/loader.js" id="loaderjs" data-app="./js/app.js"></script>
     </body>
     </html>
